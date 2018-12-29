@@ -7,7 +7,7 @@ public class Condition {
 	public Operator operator;
 	public Literal value;
 	
-	public static Condition createCondition(String conditionString)
+	public static Condition CreateCondition(String conditionString)
 	{
 		Operator operator=GetOperator(conditionString);
 		if(operator==null)
