@@ -22,12 +22,21 @@ public class DatabaseHelper {
 		manager=new IOManager();
 	}
 	
+	public boolean databaseExists(String databaseName)
+	{
+		if(databaseName==null || databaseName.length()==0)
+		{
+			QueryHandler.UnrecognisedCommand("", QueryHandler.USE_HELP_MESSAGE);
+			return false;
+		}
+		return new IOManager().databaseExists(databaseName);
+	}
 	
 	public boolean tableExists(String databaseName, String tableName)
 	{
 		if(tableName==null || databaseName==null || tableName.length()==0 || databaseName.length()==0)
 		{
-			QueryHandler.UnrecognisedCommand("", "USE HELP;");
+			QueryHandler.UnrecognisedCommand("", QueryHandler.USE_HELP_MESSAGE);
 			return false;
 		}
 		return new IOManager().checkTableExists(databaseName,tableName);

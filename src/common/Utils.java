@@ -21,6 +21,11 @@ public class Utils {
 	{
 		printMessage("Error(105T): Table '"+databaseName+"."+tableName+"'does not exist");
 	}
+	
+	public static void printMissingDatabaseError(String databaseName)
+	{
+		printMessage("Error(104T): Database '"+databaseName+"'does not exist");
+	}
 	public static boolean isValidDateFormat(String date)
 	{
 		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");

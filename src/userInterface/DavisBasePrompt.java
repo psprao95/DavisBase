@@ -2,7 +2,13 @@ package userInterface;
 
 import java.util.Scanner;
 
-/* created by prashanth on 27th december 2018 */
+
+
+import query.QueryHandler;
+
+/**
+ *  created by prashanth on 27th december 2018 
+ */
 
 public class DavisBasePrompt {
 
@@ -10,6 +16,13 @@ public class DavisBasePrompt {
 	
 	public static void main(String args[])
 	{
+	
+	}
+	
+	private static void splashScreen()
+	{
+		System.out.println(QueryHandler.line("-", 80));
+		System.out.println("Welcome to DavisBaseListe");
 	
 	}
 }

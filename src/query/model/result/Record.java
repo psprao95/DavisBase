@@ -6,7 +6,7 @@ import java.util.HashMap;
 public class Record {
 	HashMap<String, Literal> valueMap;
 	
-	public static Record createRecord()
+	public static Record CreateRecord()
 	{
 		return new Record();
 	}

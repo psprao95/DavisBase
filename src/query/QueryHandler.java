@@ -83,7 +83,7 @@ public class QueryHandler {
 			Result result = query.ExecuteQuery();
 			if(result!=null)
 			{
-				result.Display();
+				//result.Display();
 			}
 		}
 		
