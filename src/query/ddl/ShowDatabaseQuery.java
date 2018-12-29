@@ -1,6 +1,9 @@
 package query.ddl;
 
-/* created by prashanth on 29/1	2/2018 */
+/**
+ *  created by prashanth on 29/12/2018 
+ * */
+
 import query.base.IQuery;
 import query.model.parser.Literal;
 import query.model.result.*;
