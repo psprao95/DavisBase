@@ -3,6 +3,8 @@ package query;
 import common.DatabaseConstants;
 import query.base.IQuery;
 import query.ddl.*;
+import query.vdl.SelectQuery;
+import query.model.parser.Condition;
 import query.model.result.Result;
 
 import java.util.ArrayList;
@@ -68,11 +70,48 @@ public class QueryHandler {
 	}
 	
 	
+	
 	public static void UnrecognisedCommand(String userCommand, String message)
 	{
 		System.out.println("Erro(100): Unrecognised Command "+ userCommand);
 		System.out.println("Message: "+message);
 		
+	}
+	
+	static IQuery SelectQueryHandler(String[] attributes, String tableName, String conditionString)
+	{
+		if(QueryHandler.ActiveDatabaseName=="")
+		{
+			System.out.println(QueryHandler.NO_DATABASES_SELECTED_MESSAGE);
+			return null;
+		}
+		
+		boolean isSelectAll=false;
+		SelectQuery query;
+		ArrayList<String> columns = new ArrayList<>();
+		for(String attribute:attributes)
+		{
+			columns.add(attribute.trim());
+		}
+		
+		if(columns.size()==1 &&columns.get(0).equals("*"))
+		{
+			isSelectAll=true;
+			columns=null;
+		}
+		if(conditionString.equals(""))
+		{
+			query = new SelectQuery(QueryHandler.ActiveDatabaseName,tableName,columns,null,isSelectAll);
+			return query;
+		}
+		
+		Condition condition=Condition.CreateCondition(conditionString);
+		if(condition==null)
+		{
+			return null;
+		}
+		
+		ArrayList<Condition> condition = new ArrayList<>();
 	}
 	
 	public static void ExecuteQuery(IQuery query)
