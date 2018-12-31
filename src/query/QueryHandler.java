@@ -111,7 +111,23 @@ public class QueryHandler {
 			return null;
 		}
 		
-		ArrayList<Condition> condition = new ArrayList<>();
+		ArrayList<Condition> conditionList = new ArrayList<>();
+		conditionList.add(condition);
+		query=new SelectQuery(QueryHandler.ActiveDatabaseName,tableName,columns,conditionList,isSelectAll);
+	}
+	
+	public static void ShowVersionQueryHandler()
+	{
+		System.out.println("DavisBaseLite Version "+getVersion());
+		System.out.println(getCopyright());
+	}
+	
+	static void HelpQueryHandler()
+	{
+		System.out.println(line("*",80));
+		System.out.println("Supported Commands");
+		System.out.println("All commands shown below are case insensitive");
+		System.out.println();
 	}
 	
 	public static void ExecuteQuery(IQuery query)
