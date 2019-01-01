@@ -3,8 +3,10 @@ package query;
 import common.DatabaseConstants;
 import query.base.IQuery;
 import query.ddl.*;
+import query.dml.*;
 import query.vdl.SelectQuery;
 import query.model.parser.Condition;
+import query.model.parser.*;
 import query.model.result.Result;
 
 import java.util.ArrayList;
@@ -153,17 +155,120 @@ public class QueryHandler {
 		System.out.println(line("*",80));
 	}
 	
-	static IQuery InsertQueryHandler(String tableName,String columnsList,String valuesList)
+	static IQuery InsertQueryHandler(String tableName,String columnsString,String valuesList)
 	{
 		if(QueryHandler.ActiveDatabaseName.equals(""))
 		{
 			System.out.println(QueryHandler.NO_DATABASES_SELECTED_MESSAGE);
 			return null;
 		}
+		
 		IQuery query=null;
 		ArrayList<String> columns=null;
 		ArrayList<Literal> values = new ArrayList<>();
+		if(!columnsString.equals(""))
+		{
+			columns = new ArrayList<>();
+			String[] columnList=columnsString.split(",");
+			for(String column:columnList)
+			{
+				columns.add(column);
+			}
+		}
+		
+		for(String value:valuesList.split(","))
+		{
+			Literal literal = Literal.CreateLiteral(value.trim());
+			if(literal==null)
+			{
+				return null;
+			}
+			values.add(literal);
+		}
+		
+		if(columns!=null && columns.size()!=values.size())
+		{
+			QueryHandler.UnrecognisedCommand("", "Number of columns and values fon't match");
+			return null;
+			
+		}
+		query = new InsertQuery(QueryHandler.ActiveDatabaseName,tableName,columns,values);
+		return query;
 	}
+	
+	static IQuery DeleteQueryHandler(String tableName,String conditionString)
+	{
+		if(QueryHandler.ActiveDatabaseName.equals(""))
+		{
+			System.out.println(QueryHandler.NO_DATABASES_SELECTED_MESSAGE);
+			return null;
+		}
+		
+		IQuery query;
+		
+		if(conditionString.equals(""))
+		{
+			query = new DeleteQuery(QueryHandler.ActiveDatabaseName,tableName,null);
+			return query;
+		}
+		
+		Condition condition=Condition.CreateCondition(conditionString);
+		if(condition==null)
+		{
+			return null;
+		}
+		
+		ArrayList<Condition> conditions = new ArrayList<>();
+		conditions.add(condition);
+		query=new DeleteQuery(QueryHandler.ActiveDatabaseName,tableName,conditions);
+		return query;
+	}
+	
+	
+	static IQuery UpdateQueryHandler(String tableName,String clauseString, String conditionString)
+	{
+		if(QueryHandler.ActiveDatabaseName.equals(""))
+		{
+			System.out.println(QueryHandler.NO_DATABASES_SELECTED_MESSAGE);
+			return null;
+		}
+		
+		IQuery query;
+		Condition clause=Condition.CreateCondition(clauseString);
+		if(clause==null)
+		{
+			return null;
+		}
+		if(clause.operator!=Operator.EQUALS)
+		{
+			QueryHandler.UnrecognisedCommand("", "SET clause should contain only = operator");
+			return null;
+		}
+		if(conditionString.equals(""))
+		{
+			query = new UpdateQuery(QueryHandler.ActiveDatabaseName,tableName,clause.column,clause.value,null);
+			return query;
+		}
+		
+		Condition condition=Condition.CreateCondition(conditionString);
+		if(condition==null)
+		{
+			return null;
+		}
+		
+		query = new UpdateQuery(QueryHandler.ActiveDatabaseName,tableName,clause.column,clause.value,condition);
+		return query;
+	}
+	
+	
+	static IQuery CreateTableHandler(String tableName, String columnsPart)
+	{
+		if(QueryHandler.ActiveDatabaseName.equals("")){
+            System.out.println(QueryHandler.NO_DATABASE_SELECTED_MESSAGE);
+            return null;
+        }
+	}
+	
 	public static void ExecuteQuery(IQuery query)
 	
 	{
