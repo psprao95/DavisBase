@@ -4,9 +4,10 @@ import common.DatabaseConstants;
 import query.base.IQuery;
 import query.ddl.*;
 import query.dml.*;
+import query.vdl.*;
 import query.vdl.SelectQuery;
-import query.model.parser.Condition;
 import query.model.parser.*;
+import query.model.parser.DataTypeEnum;
 import query.model.result.Result;
 
 import java.util.ArrayList;
@@ -26,7 +27,7 @@ public class QueryHandler {
 	 static final String CREATE_DATABASE_COMMAND= "CREATE DATABASE";
 	 static final String USE_DATABASE_COMMAND= "USE";
 	static final String DESC_TABLE_COMMAND= "DESC";
-	private static final String NO_DATABASES_SELECTED_MESSAGE= "No databases selected";
+	private static final String NO_DATABASE_SELECTED_MESSAGE= "No databases selected";
 	public static final String USE_HELP_MESSAGE="\n Type help; to display supported commands.";
 	
 	public static String ActiveDatabaseName="";
@@ -55,7 +56,7 @@ public class QueryHandler {
 	{
 		if(QueryHandler.ActiveDatabaseName.equals(""))
 		{
-			System.out.println(QueryHandler.NO_DATABASES_SELECTED_MESSAGE);
+			System.out.println(QueryHandler.NO_DATABASE_SELECTED_MESSAGE);
 			return null;
 		}
 		return new ShowTableQuery(QueryHandler.ActiveDatabaseName);
@@ -65,7 +66,7 @@ public class QueryHandler {
 	{
 		if(QueryHandler.ActiveDatabaseName.equals(""))
 		{
-			System.out.println(QueryHandler.NO_DATABASES_SELECTED_MESSAGE);
+			System.out.println(QueryHandler.NO_DATABASE_SELECTED_MESSAGE);
 			return null;
 		}
 		return new DropTableQuery(QueryHandler.ActiveDatabaseName,tableName);
@@ -84,7 +85,7 @@ public class QueryHandler {
 	{
 		if(QueryHandler.ActiveDatabaseName=="")
 		{
-			System.out.println(QueryHandler.NO_DATABASES_SELECTED_MESSAGE);
+			System.out.println(QueryHandler.NO_DATABASE_SELECTED_MESSAGE);
 			return null;
 		}
 		
@@ -159,7 +160,7 @@ public class QueryHandler {
 	{
 		if(QueryHandler.ActiveDatabaseName.equals(""))
 		{
-			System.out.println(QueryHandler.NO_DATABASES_SELECTED_MESSAGE);
+			System.out.println(QueryHandler.NO_DATABASE_SELECTED_MESSAGE);
 			return null;
 		}
 		
@@ -200,7 +201,7 @@ public class QueryHandler {
 	{
 		if(QueryHandler.ActiveDatabaseName.equals(""))
 		{
-			System.out.println(QueryHandler.NO_DATABASES_SELECTED_MESSAGE);
+			System.out.println(QueryHandler.NO_DATABASE_SELECTED_MESSAGE);
 			return null;
 		}
 		
@@ -229,7 +230,7 @@ public class QueryHandler {
 	{
 		if(QueryHandler.ActiveDatabaseName.equals(""))
 		{
-			System.out.println(QueryHandler.NO_DATABASES_SELECTED_MESSAGE);
+			System.out.println(QueryHandler.NO_DATABASE_SELECTED_MESSAGE);
 			return null;
 		}
 		
@@ -267,6 +268,79 @@ public class QueryHandler {
             System.out.println(QueryHandler.NO_DATABASE_SELECTED_MESSAGE);
             return null;
         }
+		
+		IQuery query;
+		ArrayList<Column> columns = new ArrayList<>();
+		String[] columnsList = columnsPart.split(",");
+		boolean hasPrimaryKey=false;
+		
+		for(String columnEntry:columnsList)
+		{
+			Column column = Column.createColumn(columnEntry.trim());
+			if(column==null)
+			{
+				return null;
+			}
+			columns.add(column);
+		}
+		
+		for(int i=0;i<columnsList.length;i++)
+		{
+			if(columnsList[i].toLowerCase().endsWith("primary key"))
+			{
+				if(i==0)
+				{
+					if(columns.get(i).type==DataTypeEnum.INT)
+					{
+						hasPrimaryKey=true;
+					}
+					else
+					{
+						QueryHandler.UnrecognisedCommand(columnsList[i], "Primary Key must have INT datatype");
+						return null;
+					}
+				}
+				else
+				{
+					QueryHandler.UnrecognisedCommand(columnsList[i], "Only first column should be primary key and its dayatype should be INT.");
+					return null;
+				}
+			}
+		}
+		
+		query = new CreateTableQuery(QueryHandler.ActiveDatabaseName,tableName,columns,hasPrimaryKey);
+		return query;
+		
+	}
+	
+	static IQuery  DropDatabaseQueryHandler(String databaseName)
+	{
+		return new DropDatabaseQuery(databaseName);
+	}
+	
+	static IQuery ShowDatabaseQueryHandler()
+	{
+		return new ShowDatabaseQuery();
+	}
+	
+	static IQuery UseDatabaseQueryHandler(String databaseName)
+	{
+		return new UseDatabaseQuery(databaseName);
+	}
+	
+	static IQuery CreateDatabaseQueryHandler(String databaseName)
+	{
+		return new CreateDatabaseQuery(databaseName);
+	}
+	
+	static IQuery DescTableQueryHandler(String tableName)
+	{
+		if(QueryHandler.ActiveDatabaseName.equals(""))
+		{
+			System.out.println(QueryHandler.NO_DATABASE_SELECTED_MESSAGE);
+			return null;
+		}
+		return new DescTableQuery(QueryHandler.ActiveDatabaseName,tableName);
 	}
 	
 	public static void ExecuteQuery(IQuery query)
@@ -277,7 +351,7 @@ public class QueryHandler {
 			Result result = query.ExecuteQuery();
 			if(result!=null)
 			{
-				//result.Display();
+				result.Display();
 			}
 		}
 		

@@ -8,5 +8,20 @@ public class Result {
 	{
 		this.rowsAffected=rowsAffected;
 	}
-
+	
+	public Result(int rowsAffected, boolean isInternal)
+	{
+		this.rowsAffected=rowsAffected;
+		this.isInternal=isInternal;
+	}
+	
+	public void Display()
+	{
+		if(this.isInternal)
+		{
+			return;
+		}
+		System.out.println("Query Sucessful");
+		System.out.println(String.format("%d rows affected", this.rowsAffected));
+	}
 }
