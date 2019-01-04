@@ -89,6 +89,30 @@ public class QueryParser {
                 QueryHandler.UnrecognisedCommand(userCommand, QueryHandler.USE_HELP_MESSAGE);
                 return;
             }
+            
+            int index=userCommand.toLowerCase().indexOf("from");
+            if(index==-1)
+            {
+            	QueryHandler.UnrecognisedCommand(userCommand, "Expected FROM keyword");
+            	return;
+            }
+            
+            String attributeList = userCommand.substring(QueryHandler.SELECT_COMMAND.length(), index).trim();
+            String  restUserQuery=userCommand.substring(index+"from".length());
+            
+            index=restUserQuery.toLowerCase().indexOf("where");
+            if(index==-1)
+            {
+            	String tableName=restUserQuery.trim();
+            	IQuery query = QueryHandler.SelectQueryHandler(attributeList.split(","), tableName, "");
+            	QueryHandler.ExecuteQuery(query);
+            	return;
+            }
+            
+            String tableName=restUserQuery.substring(0,index);
+            String conditions = restUserQuery.substring(index+"where".length());
+            IQuery query = QueryHandler.SelectQueryHandler(attributeList.split(","), tableName, conditions);
+            QueryHandler.ExecuteQuery(query);
 		}
 		
 		

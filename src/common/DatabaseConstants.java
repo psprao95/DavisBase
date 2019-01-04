@@ -4,7 +4,7 @@ public interface DatabaseConstants {
 	
 	String PROMPT = "davisql> ";
 	String VERSION="v1.0";
-	String COPYRIGHT="@2018 Prashanth Rao";
+	String COPYRIGHT="@2019 Prashanth Rao";
 	
 	String DEFAULT_FILE_EXTENSION=".tbl";
 	String DEFAULT_DATA_DIRNAME="data";
