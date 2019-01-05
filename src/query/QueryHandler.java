@@ -5,7 +5,6 @@ import query.base.IQuery;
 import query.ddl.*;
 import query.dml.*;
 import query.vdl.*;
-import query.vdl.SelectQuery;
 import query.model.parser.*;
 import query.model.parser.DataTypeEnum;
 import query.model.result.Result;

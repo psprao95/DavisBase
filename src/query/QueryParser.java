@@ -1,5 +1,6 @@
 package query;
 
+
 import query.base.IQuery;
 
 public class QueryParser {
