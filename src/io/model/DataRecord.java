@@ -3,7 +3,7 @@ package io.model;
 import java.util.List;
 import java.util.ArrayList;
 
-import datatypes.*;
+
 public class DataRecord {
 	private List<Object> columnValueList;
 	private short size;
