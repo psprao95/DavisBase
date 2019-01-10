@@ -2,6 +2,7 @@ package datatypes;
 
 import common.DatabaseConstants;
 import datatypes.base.DataType_Numeric;
+
 public class DataType_TinyInt extends DataType_Numeric<Byte>{
 	
 	public DataType_TinyInt()
@@ -17,6 +18,8 @@ public class DataType_TinyInt extends DataType_Numeric<Byte>{
 	public DataType_TinyInt(byte value,boolean isNull)
 	{
 		super(DatabaseConstants.TINY_INT_SERIAL_TYPE_CODE,DatabaseConstants.ONE_BYTE_NULL_SERIAL_TYPE_CODE,Byte.BYTES);
+		this.value=value;
+		this.isNull=isNull;
 	}
 	
 	@Override
@@ -53,4 +56,19 @@ public class DataType_TinyInt extends DataType_Numeric<Byte>{
 				return false;
 		}
 	}
+	
+	public boolean compare(DataType_SmallInt object2, short condition) {
+        DataType_SmallInt object = new DataType_SmallInt(value, false);
+        return object.compare(object2, condition);
+    }
+
+    public boolean compare(DataType_Int object2, short condition) {
+        DataType_Int object = new DataType_Int(value, false);
+        return object.compare(object2, condition);
+    }
+
+    public boolean compare(DataType_BigInt object2, short condition) {
+        DataType_BigInt object = new DataType_BigInt(value, false);
+        return object.compare(object2, condition);
+    }
 }

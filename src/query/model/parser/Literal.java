@@ -3,7 +3,7 @@ package query.model.parser;
 import common.DatabaseConstants;
 import common.Utils;
 import query.QueryHandler;
-
+import datatypes.base.DataType;
 
 
 public class Literal {
@@ -11,7 +11,7 @@ public class Literal {
 	public DataTypeEnum type;
 	public String value;
 	
-	public static Literal CreateLiteral(datatypes.base.DataType value,Byte type)
+	public static Literal CreateLiteral(DataType value,Byte type)
 	{
 		if(type==DatabaseConstants.INVALID_CLASS)
 		{

@@ -41,7 +41,7 @@ public class DropDatabaseQuery implements IQuery{
 		
 		if(!isDeleted)
 		{
-			Utils.printMessage(String.format("Error (200): Unable to deleted database %s", this.databaseName));
+			Utils.printMessage(String.format("Error (200): Unable to deleted database '%s'", this.databaseName));
 			return null;
 		}
 		

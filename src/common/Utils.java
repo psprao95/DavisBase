@@ -2,8 +2,11 @@ package common;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.ZonedDateTime;
+import java.util.Date;
 import java.text.ParseException;
 import java.io.File;
+import java.time.ZoneId;
 
 public class Utils {
 	
@@ -55,6 +58,34 @@ public class Utils {
 		}
 		return true;
 	}
+	
+	
+	public static long getDateEpoc(String value, boolean isDate)
+	{
+		DateFormat formatter;
+		if(isDate)
+		{
+			formatter=new SimpleDateFormat("yyyy-MM-dd");
+		}
+		else
+		{
+			formatter=new SimpleDateFormat("yyyy-MM:-dd HH:mm:ss");
+		}
+		formatter.setLenient(false);
+		Date date;
+		try
+		{
+			date=formatter.parse(value);
+			ZonedDateTime zdt= ZonedDateTime.ofInstant(date.toInstant(),ZoneId.systemDefault());
+			return zdt.toInstant().toEpochMilli()/1000;
+		}
+		catch(ParseException ex)
+		{
+			return 0;
+		}
+	}
+	
+	
 	
 	public static boolean RecursivelyDelete(File file)
 	{
