@@ -55,12 +55,12 @@ public class Literal {
 		{
 			literalString=literalString.substring(1, literalString.length()-1);
 			
-			if(Utils.isValidDateTimeFormat(literalString))
+			if(Utils.isvalidDateTimeFormat(literalString))
 			{
 				return new Literal(DataTypeEnum.DATETIME,literalString);
 			}
 			
-			if(Utils.isValidDateFormat(literalString))
+			if(Utils.isvalidDateFormat(literalString))
 			{
 				return new Literal(DataTypeEnum.DATE,literalString);
 			}
@@ -71,12 +71,12 @@ public class Literal {
 		{
 			literalString=literalString.substring(1, literalString.length()-1);
 			
-			if(Utils.isValidDateTimeFormat(literalString))
+			if(Utils.isvalidDateTimeFormat(literalString))
 			{
 				return new Literal(DataTypeEnum.DATETIME,literalString);
 			}
 			
-			if(Utils.isValidDateFormat(literalString))
+			if(Utils.isvalidDateFormat(literalString))
 			{
 				return new Literal(DataTypeEnum.DATE,literalString);
 			}

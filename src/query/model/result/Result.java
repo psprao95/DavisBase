@@ -24,4 +24,6 @@ public class Result {
 		System.out.println("Query Sucessful");
 		System.out.println(String.format("%d rows affected", this.rowsAffected));
 	}
+	
+	
 }

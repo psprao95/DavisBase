@@ -27,21 +27,12 @@ import io.model.PointerRecord;
 
 public class IOManager {
 	
-	public boolean databaseExists(String databaseName)
-	{
-		File databaseDir=new File(Utils.getDatabasePath(databaseName));
-		return databaseDir.exists();
-	}
-	
-	
-	public boolean checkTableExists(String databaseName, String tableName)
-	{
-		boolean databaseExists=this.databaseExists(databaseName);
-		boolean fileExists = new File(Utils.getDatabasePath(databaseName)+"/"+tableName+DatabaseConstants.DEFAULT_FILE_EXTENSION).exists();
-		return (databaseExists&&fileExists);
-	}
-	
-	public boolean createTable(String databaseName, String tableName) throws InternalException {
+	public boolean databaseExists(String databaseName) {
+        File databaseDir = new File(Utils.getDatabasePath(databaseName));
+        return  databaseDir.exists();
+    }
+
+    public boolean createTable(String databaseName, String tableName) throws InternalException {
         try {
             File dirFile = new File(Utils.getDatabasePath(databaseName));
             if (!dirFile.exists()) {
@@ -68,8 +59,15 @@ public class IOManager {
             throw new InternalException(InternalException.GENERIC_EXCEPTION);
         }
     }
-	
-	public boolean writeRecord(String databaseName, String tableName, DataRecord record) throws InternalException {
+
+    public boolean checkTableExists(String databaseName, String tableName) {
+        boolean databaseExists = this.databaseExists(databaseName);
+        boolean fileExists = new File(Utils.getDatabasePath(databaseName) + "/" + tableName + DatabaseConstants.DEFAULT_FILE_EXTENSION).exists();
+
+        return (databaseExists && fileExists);
+    }
+
+    public boolean writeRecord(String databaseName, String tableName, DataRecord record) throws InternalException {
         RandomAccessFile randomAccessFile;
         try {
             File file = new File(Utils.getDatabasePath(databaseName) + "/" + tableName + DatabaseConstants.DEFAULT_FILE_EXTENSION);

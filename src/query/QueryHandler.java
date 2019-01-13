@@ -6,7 +6,6 @@ import query.ddl.*;
 import query.dml.*;
 import query.vdl.*;
 import query.model.parser.*;
-import query.model.parser.DataTypeEnum;
 import query.model.result.Result;
 
 import java.util.ArrayList;
@@ -24,7 +23,7 @@ public class QueryHandler {
 	 static final String UPDATE_COMMAND= "UPDATE";
 	 static final String CREATE_TABLE_COMMAND= "CREATE TABLE";
 	 static final String CREATE_DATABASE_COMMAND= "CREATE DATABASE";
-	 static final String USE_DATABASE_COMMAND= "USE";
+	 static final String USE_DATABASE_COMMAND= "USE DATABASE";
 	static final String DESC_TABLE_COMMAND= "DESC";
 	private static final String NO_DATABASE_SELECTED_MESSAGE= "No databases selected";
 	public static final String USE_HELP_MESSAGE="\n Type help; to display supported commands.";
@@ -75,14 +74,14 @@ public class QueryHandler {
 	
 	public static void UnrecognisedCommand(String userCommand, String message)
 	{
-		System.out.println("Erro(100): Unrecognised Command "+ userCommand);
+		System.out.println("Error(100): Unrecognised Command "+ userCommand);
 		System.out.println("Message: "+message);
 		
 	}
 	
 	static IQuery SelectQueryHandler(String[] attributes, String tableName, String conditionString)
 	{
-		if(QueryHandler.ActiveDatabaseName=="")
+		if(QueryHandler.ActiveDatabaseName.equals(""))
 		{
 			System.out.println(QueryHandler.NO_DATABASE_SELECTED_MESSAGE);
 			return null;
@@ -128,31 +127,32 @@ public class QueryHandler {
 	static void HelpQueryHandler()
 	{
 		System.out.println(line("*",80));
-		System.out.println("Supported Commands");
-		System.out.println("All commands shown below are case insensitive");
-		System.out.println();
-		System.out.println("\tUSE DATABASE database_name;                       Changes current database"); 
-		System.out.println("\tCREATE DATABASE database_name;                    creates an empty database.");
-		System.out.println("\tSHOW DATABASES;                                   SHOWS ALL DATABASES.");
-		System.out.println("\tDROP DATABASE database_name;                      Removes a database");
-		System.out.println("\tSHOW TABLES;                      			    Displays all tab;es in the database");
-		System.out.println("\tDESC tablename;                     			    Displays table schemaRemoves a database");
-		System.out.println("\tCREATE TABLE table_name (;                        Creates a table in the current database");
-		System.out.println("\t\t <column name> <datatype> [primary key | not null]");
-		System.out.println("\t\t...)");
-		System.out.println("DROP TABEL table_name							    Drops a table from the current database;");
-		System.out.println("\tSELECT <columnlist> FROM table_name               Display records whose row id is <id>");
-		System.out.println("\t\t[WHERE row id=<value>];");
-		System.out.println("\tINSERT INTO table_name							Insets a record into the table. ");
-		System.out.println("\t\t[<column1>,<column2>..] VALUES (<value1>,<value2>...);");
-		System.out.println("DELETE FROM TABLE [WHERE condition];				Deletes records from the table from");
-		System.out.println("UPDATE TABLE SET <conditions>						Updates records from the table");	
-		System.out.println("\t\t[WHERE CONDITION]");
-		System.out.println("\tHELP; 											Displays help information");
-		System.out.println("EXIT;												Exits the program");
-		System.out.println();
-		System.out.println();
-		System.out.println(line("*",80));
+        System.out.println("SUPPORTED COMMANDS");
+        System.out.println("All commands below are case insensitive");
+        System.out.println();
+        System.out.println("\tUSE DATABASE database_name;                      Changes current database.");
+        System.out.println("\tCREATE DATABASE database_name;                   Creates an empty database.");
+        System.out.println("\tSHOW DATABASES;                                  Displays all databases.");
+        System.out.println("\tDROP DATABASE database_name;                     Deletes a database.");
+        System.out.println("\tSHOW TABLES;                                     Displays all tables in current database.");
+        System.out.println("\tDESC table_name;                                 Displays table schema.");
+        System.out.println("\tCREATE TABLE table_name (                        Creates a table in current database.");
+        System.out.println("\t\t<column_name> <datatype> [PRIMARY KEY | NOT NULL]");
+        System.out.println("\t\t...);");
+        System.out.println("\tDROP TABLE table_name;                           Deletes a table data and its schema.");
+        System.out.println("\tSELECT <column_list> FROM table_name             Display records whose rowid is <id>.");
+        System.out.println("\t\t[WHERE rowid = <value>];");
+        System.out.println("\tINSERT INTO table_name                           Inserts a record into the table.");
+        System.out.println("\t\t[(<column1>, ...)] VALUES (<value1>, <value2>, ...);");
+        System.out.println("\tDELETE FROM table_name [WHERE condition];        Deletes a record from a table.");
+        System.out.println("\tUPDATE table_name SET <conditions>               Updates a record from a table.");
+        System.out.println("\t\t[WHERE condition];");
+        System.out.println("\tVERSION;                                         Display current database engine version.");
+        System.out.println("\tHELP;                                            Displays help information");
+        System.out.println("\tEXIT;                                            Exits the program");
+        System.out.println();
+        System.out.println();
+        System.out.println(line("*",80));
 	}
 	
 	static IQuery InsertQueryHandler(String tableName,String columnsString,String valuesList)
@@ -261,55 +261,44 @@ public class QueryHandler {
 	}
 	
 	
-	static IQuery CreateTableHandler(String tableName, String columnsPart)
+	static IQuery CreateTableQueryHandler(String tableName, String columnsPart)
 	{
 		if(QueryHandler.ActiveDatabaseName.equals("")){
             System.out.println(QueryHandler.NO_DATABASE_SELECTED_MESSAGE);
             return null;
         }
-		
-		IQuery query;
-		ArrayList<Column> columns = new ArrayList<>();
-		String[] columnsList = columnsPart.split(",");
-		boolean hasPrimaryKey=false;
-		
-		for(String columnEntry:columnsList)
-		{
-			Column column = Column.createColumn(columnEntry.trim());
-			if(column==null)
-			{
-				return null;
-			}
-			columns.add(column);
-		}
-		
-		for(int i=0;i<columnsList.length;i++)
-		{
-			if(columnsList[i].toLowerCase().endsWith("primary key"))
-			{
-				if(i==0)
-				{
-					if(columns.get(i).type==DataTypeEnum.INT)
-					{
-						hasPrimaryKey=true;
-					}
-					else
-					{
-						QueryHandler.UnrecognisedCommand(columnsList[i], "Primary Key must have INT datatype");
-						return null;
-					}
-				}
-				else
-				{
-					QueryHandler.UnrecognisedCommand(columnsList[i], "Only first column should be primary key and its dayatype should be INT.");
-					return null;
-				}
-			}
-		}
-		
-		query = new CreateTableQuery(QueryHandler.ActiveDatabaseName,tableName,columns,hasPrimaryKey);
-		return query;
-		
+
+        IQuery query;
+        boolean hasPrimaryKey = false;
+        ArrayList<Column> columns = new ArrayList<>();
+        String[] columnsList = columnsPart.split(",");
+
+        for(String columnEntry : columnsList){
+            Column column = Column.createColumn(columnEntry.trim());
+            if(column == null) return null;
+            columns.add(column);
+        }
+
+        for (int i = 0; i < columnsList.length; i++) {
+            if (columnsList[i].toLowerCase().endsWith("primary key")) {
+                if (i == 0) {
+                    if (columns.get(i).type == DataTypeEnum.INT) {
+                        hasPrimaryKey = true;
+                    } else {
+                        QueryHandler.UnrecognisedCommand(columnsList[i], "PRIMARY KEY has to have INT datatype");
+                        return null;
+                    }
+                }
+                else {
+                    QueryHandler.UnrecognisedCommand(columnsList[i], "Only first column should be PRIMARY KEY and has to have INT datatype.");
+                    return null;
+                }
+
+            }
+        }
+
+        query = new CreateTableQuery(QueryHandler.ActiveDatabaseName, tableName, columns, hasPrimaryKey);
+        return query;
 	}
 	
 	static IQuery  DropDatabaseQueryHandler(String databaseName)

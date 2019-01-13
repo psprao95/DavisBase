@@ -29,7 +29,7 @@ public class Record {
 		this.valueMap.put(columnName, value);
 	}
 	
-	public String getColumn(String column)
+	public String get(String column)
 
 	{
 		Literal literal=this.valueMap.get(column);

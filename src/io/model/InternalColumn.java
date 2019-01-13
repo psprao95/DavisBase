@@ -49,7 +49,7 @@ public class InternalColumn {
 		return name;
 	}
 	
-	public void SetName(String name)
+	public void setName(String name)
 	{
 		this.name=name;
 	}
@@ -64,23 +64,34 @@ public class InternalColumn {
 		this.dataType=dataType;
 	}
 	
-	public boolean getIsNullable()
+	public boolean getNullable()
 	{
 		return isNullable;
 	}
 	
-	public void setIsNullable(boolean isNullable)
+	public void setNullable(boolean isNullable)
 	{
 		this.isNullable=isNullable;
 	}
 	
-	public boolean getIsPrimary()
+	public String getStringIsNullable()
+	{
+		return isNullable?"YES":"NO";
+	}
+	
+	public boolean getPrimary()
 	{
 		return isPrimary;
 	}
 	
-	public void setIsPrimary(boolean isPrimary)
+	public void setPrimary(boolean isPrimary)
 	{
 		this.isPrimary=isPrimary;
 	}
+	
+	public String getStringIsPrimary()
+	{
+		return isPrimary?"YES":"NO";
+	}
+	
 }
