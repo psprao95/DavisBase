@@ -16,7 +16,7 @@ public class UseDatabaseQuery implements IQuery {
 	public Result ExecuteQuery()
 	{
 		QueryHandler.ActiveDatabaseName=this.databaseName;
-		Utils.printMessage("Databae changed");
+		Utils.printMessage("Database changed");
 		return null;
 	}
 	

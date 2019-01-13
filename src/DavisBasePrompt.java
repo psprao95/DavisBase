@@ -1,4 +1,4 @@
-package userInterface;
+
 
 import java.util.Scanner;
 
@@ -32,7 +32,7 @@ public class DavisBasePrompt {
 	private static void splashScreen()
 	{
 		System.out.println(QueryHandler.line("-", 80));
-		System.out.println("Welcome to DavisBaseListe");
+		System.out.println("Welcome to DavisBaseLite");
 		QueryHandler.ShowVersionQueryHandler();
 		System.out.println("\nType 'help;' to display suppoted commands");
 		System.out.println(QueryHandler.line("-", 80));
