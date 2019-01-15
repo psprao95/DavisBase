@@ -1,36 +1,33 @@
 ## Supported Commands
-All commands are case insensitive;
+All commands are case insensitive
 
-USE DATABASE database_name;                      Changes current database.
+* USE DATABASE database_name;                      
 
-CREATE DATABASE database_name;                   Creates an empty database.
+* CREATE DATABASE database_name;                  
 
-SHOW DATABASES;                                  Displays all databases.
+* SHOW DATABASES;                                  
 
-DROP DATABASE database_name;                     Deletes a database.
+* DROP DATABASE database_name;                    
 
-SHOW TABLES;                                     Displays all tables in current database.
+* SHOW TABLES;                                     
 
-DESC table_name;                                 Displays table schema.
+* DESC table_name;                                
 
-CREATE TABLE table_name ( column_name> <datatype> [PRIMARY KEY | NOT NULL] )                    Creates a table in current database
+* CREATE TABLE table_name ( column_name> <datatype> [PRIMARY KEY | NOT NULL] )                    
         
+* DROP TABLE table_name;   
+
+* SELECT <column_list> FROM table_name  [WHERE rowid = <value>];          
+                
+* INSERT INTO table_name    [(<column1>, ...)] VALUES (<value1>, <value2>, ...);                       
         
-DROP TABLE table_name;                           Deletes a table data and its schema.
-        
-SELECT <column_list> FROM table_name  [WHERE rowid = <value>];           Display records whose rowid is <id>
-        
-        
-INSERT INTO table_name    [(<column1>, ...)] VALUES (<value1>, <value2>, ...);                        Inserts a record into the table.
+DELETE FROM table_name [WHERE condition];        
+
+UPDATE table_name SET <conditions>  [WHERE condition];           
        
         
-DELETE FROM table_name [WHERE condition];        Deletes a record from a table
+VERSION;                                         
 
-UPDATE table_name SET <conditions>  [WHERE condition];           Updates a record from a table
-       
-        
-VERSION;                                         Display current database engine version.
+HELP;                                           
 
-HELP;                                            Displays help information.
-
-EXIT;                                            Exits the program
+EXIT;                                          
