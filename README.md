@@ -13,21 +13,21 @@ SHOW TABLES;                                     Displays all tables in current 
 
 DESC table_name;                                 Displays table schema.
 
-CREATE TABLE table_name (                        Creates a table in current database
-        column_name> <datatype> [PRIMARY KEY | NOT NULL]");
+CREATE TABLE table_name ( column_name> <datatype> [PRIMARY KEY | NOT NULL] )                    Creates a table in current database
+        
         
 DROP TABLE table_name;                           Deletes a table data and its schema.
         
-SELECT <column_list> FROM table_name             Display records whose rowid is <id>
-        [WHERE rowid = <value>];");
+SELECT <column_list> FROM table_name  [WHERE rowid = <value>];           Display records whose rowid is <id>
         
-INSERT INTO table_name                           Inserts a record into the table.
-        [(<column1>, ...)] VALUES (<value1>, <value2>, ...);
+        
+INSERT INTO table_name    [(<column1>, ...)] VALUES (<value1>, <value2>, ...);                        Inserts a record into the table.
+       
         
 DELETE FROM table_name [WHERE condition];        Deletes a record from a table
 
-UPDATE table_name SET <conditions>               Updates a record from a table
-        [WHERE condition];");
+UPDATE table_name SET <conditions>  [WHERE condition];           Updates a record from a table
+       
         
 VERSION;                                         Display current database engine version.
 
