@@ -1,33 +1,28 @@
+## DavisBase
+Java | A simple database engine that is based on the file-per-table variation of the SQLite file format. Supported functions: Create Database, Drop Database, Show Databases, Create Table, Drop Table, Show Tables, Select Star, Select-From-Where, Insert, Update, Delete
+
 ## Supported Commands
-All commands are case insensitive
+Type **'help;'** to display supported commands. All commands are case insensitive.
+```
+USE database_name;                               Changes current database.
+CREATE DATABASE database_name;                   Creates an empty database.
+SHOW DATABASES;                                  Displays all databases.
+DROP DATABASE database_name;                     Deletes a database.
+SHOW TABLES;                                     Displays all tables in current database.
+DESC table_name;                                 Displays table schema.
+CREATE TABLE table_name (                        Creates a table in current database.
+	<column_name> <datatype> [PRIMARY KEY | NOT NULL]
+	...);
+DROP TABLE table_name;                           Deletes a table data and its schema.
+SELECT <column_list> FROM table_name             Display records whose rowid is <id>.
+	[WHERE rowid = <value>];
+INSERT INTO table_name                           Inserts a record into the table.
+	[(<column1>, ...)] VALUES (<value1>, <value2>, ...);
+DELETE FROM table_name [WHERE condition];        Deletes a record from a table.
+UPDATE table_name SET <conditions>               Updates a record from a table.
+	[WHERE condition];
+VERSION;                                         Display current database engine version.
+HELP;                                            Displays help information
+EXIT;                                            Exits the program
 
-* USE database_name;                      
-
-* CREATE DATABASE database_name;                  
-
-* SHOW DATABASES;                                  
-
-* DROP DATABASE database_name;                    
-
-* SHOW TABLES;                                     
-
-* DESC table_name;                                
-
-* CREATE TABLE table_name ( column_name> <datatype> [PRIMARY KEY | NOT NULL] )                    
-        
-* DROP TABLE table_name;   
-
-* SELECT <column_list> FROM table_name  [WHERE rowid = <value>];          
-                
-* INSERT INTO table_name    [(<column1>, ...)] VALUES (<value1>, <value2>, ...);                       
-        
-* DELETE FROM table_name [WHERE condition];        
-
-* UPDATE table_name SET <conditions>  [WHERE condition];           
-       
-        
-* VERSION;                                         
-
-* HELP;                                           
-
-* EXIT;                                          
+```
