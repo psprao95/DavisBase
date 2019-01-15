@@ -1,7 +1,7 @@
 ## Supported Commands
 All commands are case insensitive
 
-* USE DATABASE database_name;                      
+* USE database_name;                      
 
 * CREATE DATABASE database_name;                  
 
@@ -21,13 +21,13 @@ All commands are case insensitive
                 
 * INSERT INTO table_name    [(<column1>, ...)] VALUES (<value1>, <value2>, ...);                       
         
-DELETE FROM table_name [WHERE condition];        
+* DELETE FROM table_name [WHERE condition];        
 
-UPDATE table_name SET <conditions>  [WHERE condition];           
+* UPDATE table_name SET <conditions>  [WHERE condition];           
        
         
-VERSION;                                         
+* VERSION;                                         
 
-HELP;                                           
+* HELP;                                           
 
-EXIT;                                          
+* EXIT;                                          
